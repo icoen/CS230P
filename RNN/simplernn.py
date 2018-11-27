@@ -27,7 +27,7 @@ FLAGS = tf.flags.FLAGS
 
 
 #use Glove embeddings
-word_to_index, index_to_word, word_to_vec_map = read_glove_vecs('./../../glove.twitter.27B/glove.twitter.27B.50d.txt')
+word_to_index, index_to_word, word_to_vec_map = read_glove_vecs('./glove/glove.twitter.27B.50d.txt')
 
 def sentences_to_indices(X, word_to_index, max_len):
   
