@@ -27,7 +27,7 @@ FLAGS = tf.flags.FLAGS
 
 
 #use Glove embeddings
-word_to_index, index_to_word, word_to_vec_map = read_glove_vecs('./glove/glove.twitter.27B.50d.txt')
+word_to_index, index_to_word, word_to_vec_map = read_glove_vecs('./../../glove.twitter.27B/glove.twitter.27B.50d.txt')
 
 def sentences_to_indices(X, word_to_index, max_len):
   
@@ -81,7 +81,10 @@ def pretrained_embedding_layer(word_to_vec_map, word_to_index):
     
     # Set each row "index" of the embedding matrix to be the word vector representation of the "index"th word of the vocabulary
     for word, index in word_to_index.items():
-        emb_matrix[index, :] = word_to_vec_map[word]
+        if (len(word_to_vec_map[word])==50):
+        #if word=='0.45973':
+           #print(len(word_to_vec_map[word]))
+            emb_matrix[index, :] = word_to_vec_map[word]
 
     # Define Keras embedding layer with the correct output/input sizes, make it trainable. Use Embedding(...). Make sure to set trainable=False. 
     embedding_layer = Embedding( vocab_len,emb_dim ,trainable=False)
@@ -114,6 +117,10 @@ def RNN():
 print("Loading data...")
 x_text, y = data_helpers2.load_data_and_labels(FLAGS.positive_data_file, FLAGS.negative_data_file)
 # most words/sentence
+
+for x in x_text:
+    if len(x.split(" "))>100:
+        print(x)
 max_len = max([len(x.split(" ")) for x in x_text])
 
 #x_train, y_train, vocab_processor= preprocess()
@@ -128,17 +135,17 @@ max_len = max([len(x.split(" ")) for x in x_text])
 
 model = RNN()
 model.summary()
-model.compile(loss='binary_crossentropy',optimizer=RMSprop(lr=0.01),metrics=['accuracy'])
+model.compile(loss='binary_crossentropy',optimizer=RMSprop(),metrics=['accuracy'])
 
 x_train = sentences_to_indices(x_text, word_to_index, max_len)
 #Y_train_oh = convert_to_one_hot(Y_train, C = 5)
-print(x_train[1:2])
+#print(x_train[1:2])
 np.random.seed(10)
 shuffle_indices = np.random.permutation(np.arange(len(y)))
 x_train = x_train[shuffle_indices]
 y_train = y[shuffle_indices]
 
 model.fit(x_train,y_train,batch_size=64,epochs=20,
-          validation_split=0.1) #train the model
+         validation_split=0.1) #train the model
 
 #,callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001)])
