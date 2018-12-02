@@ -13,8 +13,8 @@ import sys
 # ==================================================
 
 # Data Parameters
-tf.flags.DEFINE_string("democrat_data_file", "./data/twtdemtrain.txt", "Dataset of democrat tweets")
-tf.flags.DEFINE_string("republican_data_file", "./twtreptrain.txt", "Dataset of republican tweets")
+tf.flags.DEFINE_string("democrat_data_file",   "../Datasets/twtdemtrain.txt", "Dataset of democrat tweets")
+tf.flags.DEFINE_string("republican_data_file", "../Datasets/twtreptrain.txt", "Dataset of republican tweets")
 
 # Eval Parameters
 tf.flags.DEFINE_integer("batch_size", 64, "Batch Size (default: 64)")
