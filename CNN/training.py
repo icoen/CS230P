@@ -12,12 +12,12 @@ from   tensorflow.contrib import learn
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
-#tf.flags.DEFINE_string("democrat_data_file", "./datasets/twtdemtrain.txt", "Dataset of democrat tweets")
-#tf.flags.DEFINE_string("republican_data_file", "./datasets/twtreptrain.txt", "Dataset of republican tweets")
+tf.flags.DEFINE_string("democrat_data_file", "./datasets/twtdemtrain.txt", "Dataset of democrat tweets")
+tf.flags.DEFINE_string("republican_data_file", "./datasets/twtreptrain.txt", "Dataset of republican tweets")
 
 #************#
-tf.flags.DEFINE_string("democrat_data_file", "../Datasets/rt-polarity.pos", "Dataset of democrat tweets")
-tf.flags.DEFINE_string("republican_data_file", "../Datasets/rt-polarity.neg", "Dataset of republican tweets")
+#tf.flags.DEFINE_string("democrat_data_file", "../Datasets/rt-polarity.pos", "Dataset of democrat tweets")
+#tf.flags.DEFINE_string("republican_data_file", "../Datasets/rt-polarity.neg", "Dataset of republican tweets")
 #************#
 
 # Model Hyperparameters

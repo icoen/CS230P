@@ -1,0 +1,6 @@
+model_checkpoint_path: "/Users/Ivy/Documents/CS230/CS230P/CNN/runs/1543783876/checkpoints/model-700"
+all_model_checkpoint_paths: "/Users/Ivy/Documents/CS230/CS230P/CNN/runs/1543783876/checkpoints/model-300"
+all_model_checkpoint_paths: "/Users/Ivy/Documents/CS230/CS230P/CNN/runs/1543783876/checkpoints/model-400"
+all_model_checkpoint_paths: "/Users/Ivy/Documents/CS230/CS230P/CNN/runs/1543783876/checkpoints/model-500"
+all_model_checkpoint_paths: "/Users/Ivy/Documents/CS230/CS230P/CNN/runs/1543783876/checkpoints/model-600"
+all_model_checkpoint_paths: "/Users/Ivy/Documents/CS230/CS230P/CNN/runs/1543783876/checkpoints/model-700"
