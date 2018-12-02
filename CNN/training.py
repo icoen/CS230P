@@ -4,8 +4,8 @@ import os
 import time
 import datetime
 import data_helpers
-from text_cnn import TextCNN
-from tensorflow.contrib import learn
+from   text_cnn import TextCNN
+from   tensorflow.contrib import learn
 
 # Parameters
 # ==================================================
