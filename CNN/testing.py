@@ -7,13 +7,14 @@ import data_helpers
 from   text_cnn import TextCNN
 from   tensorflow.contrib import learn
 import csv
+import sys
 
 # Parameters
 # ==================================================
 
 # Data Parameters
-tf.flags.DEFINE_string("democrat_data_file", "./data/twtdemtrain.txt", "Dataset of democrat tweets")
-tf.flags.DEFINE_string("republican_data_file", "./twtreptrain.txt", "Dataset of republican tweets")
+tf.flags.DEFINE_string("democrat_data_file",   "../Datasets/twtdemtrain.txt", "Dataset of democrat tweets")
+tf.flags.DEFINE_string("republican_data_file", "../Datasets/twtreptrain.txt", "Dataset of republican tweets")
 
 # Eval Parameters
 tf.flags.DEFINE_integer("batch_size", 64, "Batch Size (default: 64)")
@@ -26,7 +27,8 @@ tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on 
 
 
 FLAGS = tf.flags.FLAGS
-FLAGS._parse_flags()
+FLAGS(sys.argv)
+#FLAGS._parse_flags()
 print("\nParameters:")
 for attr, value in sorted(FLAGS.__flags.items()):
     print("{}={}".format(attr.upper(), value))

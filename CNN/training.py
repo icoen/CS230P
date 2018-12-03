@@ -1,19 +1,21 @@
+#2018
+
 import tensorflow as tf
 import numpy as np
 import os
 import time
 import datetime
 import data_helpers
-from text_cnn import TextCNN
-from tensorflow.contrib import learn
+from   text_cnn import TextCNN
+from   tensorflow.contrib import learn
 
 # Parameters
 # ==================================================
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("democrat_data_file", "./datasets/twtdemtrain.txt", "Dataset of democrat tweets")
-tf.flags.DEFINE_string("republican_data_file", "./datasets/twtreptrain.txt", "Dataset of republican tweets")
+tf.flags.DEFINE_string("democrat_data_file", "../Datasets/twtdemtrain.txt", "Dataset of democrat tweets")
+tf.flags.DEFINE_string("republican_data_file", "../Datasets/twtreptrain.txt", "Dataset of republican tweets")
 
 # Model Hyperparameters
 tf.flags.DEFINE_integer("embedding_dim", 128, "Dimensionality of character embedding (default: 128)")
