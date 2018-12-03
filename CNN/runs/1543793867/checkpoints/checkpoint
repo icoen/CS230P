@@ -1,0 +1,3 @@
+model_checkpoint_path: "/home/ubuntu/CS230P/CNN/runs/1543793867/checkpoints/model-200"
+all_model_checkpoint_paths: "/home/ubuntu/CS230P/CNN/runs/1543793867/checkpoints/model-100"
+all_model_checkpoint_paths: "/home/ubuntu/CS230P/CNN/runs/1543793867/checkpoints/model-200"
