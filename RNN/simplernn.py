@@ -16,8 +16,8 @@ from rnn_utils import *
 
 
 #inputs the positive and negative examples
-tf.flags.DEFINE_string("positive_data_file", "./twtdemtrain3.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "./twtreptrain3.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("positive_data_file", "./twtdemtrain4.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "./twtreptrain4.txt", "Data source for the negative data.")
 #tf.flags.DEFINE_string("positive_data_file", "./rt-polarity.pos", "Data source for the positive data.")
 #tf.flags.DEFINE_string("negative_data_file", "./rt-polarity.neg", "Data source for the negative data.")
 
@@ -55,9 +55,11 @@ def sentences_to_indices(X, word_to_index, max_len):
             # Set the (i,j)th entry of X_indices to the index of the correct word.
 
                 X_indices[i, j] = word_to_index[w]
+            else:
+                X_indices[i, j] = word_to_index['unk']
             # Increment j to j + 1
-                j = j+1
-            
+            j = j+1
+
     ### END CODE HERE ###
     
     return X_indices
@@ -146,6 +148,6 @@ x_train = x_train[shuffle_indices]
 y_train = y[shuffle_indices]
 
 model.fit(x_train,y_train,batch_size=64,epochs=20,
-         validation_split=0.1) #train the model
+         validation_split=0.1, verbose=2) #train the model
 
 #,callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001)])
