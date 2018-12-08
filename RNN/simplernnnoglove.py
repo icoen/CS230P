@@ -14,8 +14,8 @@ from keras.optimizers import RMSprop
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 #inputs the positive and negative examples
-tf.flags.DEFINE_string("positive_data_file", "./../data/rt-polaritydata/demtweetstrain.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "./../data/rt-polaritydata/reptweetstrain.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("positive_data_file", "./../Datasets/trainvaltest/demtweetstrain.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "./../Datasets/trainvaltest/reptweetstrain.txt", "Data source for the negative data.")
 
 FLAGS = tf.flags.FLAGS
 def preprocess():
@@ -46,7 +46,7 @@ def preprocess():
 #RNN network
 def RNN():
     inputs = Input(name='inputs',shape=[max_len])
-    layer = Embedding(max_words,50,input_length=max_len)(inputs)
+    layer = Embedding(max_words,200,input_length=max_len)(inputs)
     layer = LSTM(64)(layer)
     layer = Dense(256,name='FC1')(layer)
     layer = Activation('relu')(layer)
@@ -61,7 +61,7 @@ x_train, y_train, vocab_processor= preprocess()
 max_words= len(vocab_processor.vocabulary_)
 max_len=x_train.shape[1]
 
-x_vtext, y_val = data_helpers2.load_data_and_labels('./../data/rt-polaritydata/demtweetsval.txt', './../data/rt-polaritydata/reptweetsval.txt')
+x_vtext, y_val = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demtweetsval.txt', './../Datasets/trainvaltest/reptweetsval.txt')
 
 x_val = np.array(list(vocab_processor.transform(x_vtext)))
 #x_train= np.reshape(x_train, (x_train.shape[0], x_train.shape[1],1))
@@ -73,10 +73,10 @@ model = RNN()
 model.summary()
 model.compile(loss='binary_crossentropy',optimizer=RMSprop(),metrics=['accuracy'])
 
-save_weights='weights'
+save_weights='weights200'
 checkpointer=ModelCheckpoint(save_weights, monitor='val_loss', verbose=1, save_best_only=True)
 callbacks_list=[checkpointer]
-model.fit(x_train,y_train,batch_size=64,epochs=4,
+model.fit(x_train,y_train,batch_size=64,epochs=10,
           validation_data=(x_val, y_val), verbose=2, callbacks=callbacks_list) #train the model
 
 
