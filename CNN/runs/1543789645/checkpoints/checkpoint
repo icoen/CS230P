@@ -1,6 +1,0 @@
-model_checkpoint_path: "/home/ubuntu/CS230P/CNN/runs/1543789645/checkpoints/model-1100"
-all_model_checkpoint_paths: "/home/ubuntu/CS230P/CNN/runs/1543789645/checkpoints/model-700"
-all_model_checkpoint_paths: "/home/ubuntu/CS230P/CNN/runs/1543789645/checkpoints/model-800"
-all_model_checkpoint_paths: "/home/ubuntu/CS230P/CNN/runs/1543789645/checkpoints/model-900"
-all_model_checkpoint_paths: "/home/ubuntu/CS230P/CNN/runs/1543789645/checkpoints/model-1000"
-all_model_checkpoint_paths: "/home/ubuntu/CS230P/CNN/runs/1543789645/checkpoints/model-1100"
