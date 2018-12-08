@@ -55,9 +55,11 @@ def sentences_to_indices(X, word_to_index, max_len):
             # Set the (i,j)th entry of X_indices to the index of the correct word.
 
                 X_indices[i, j] = word_to_index[w]
+            else:
+                X_indices[i, j] = word_to_index['unk']
             # Increment j to j + 1
-                j = j+1
-            
+            j = j+1
+
     ### END CODE HERE ###
     
     return X_indices
