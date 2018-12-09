@@ -14,8 +14,8 @@ from keras.optimizers import RMSprop
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 #inputs the positive and negative examples
-tf.flags.DEFINE_string("Democrat_data_file", "./../Datasets/trainvaltest/demtweetstrain.txt", "Data source for Democrat data")
-tf.flags.DEFINE_string("Republican_data_file", "./../Datasets/trainvaltest/reptweetstrain.txt", "Data source for Republican data.")
+tf.flags.DEFINE_string("Democrat_data_file", "./../Datasets/trainvaltest/demfulltrain.txt", "Data source for Democrat data")
+tf.flags.DEFINE_string("Republican_data_file", "./../Datasets/trainvaltest/repfulltrain.txt", "Data source for Republican data.")
 
 FLAGS = tf.flags.FLAGS
 def preprocess():
@@ -61,7 +61,7 @@ x_train, y_train, vocab_processor= preprocess()
 max_words= len(vocab_processor.vocabulary_)
 max_len=x_train.shape[1]
 
-x_vtext, y_val = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demtweetsval.txt', './../Datasets/trainvaltest/reptweetsval.txt')
+x_vtext, y_val = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demfullval.txt', './../Datasets/trainvaltest/repfullval.txt')
 
 x_val = np.array(list(vocab_processor.transform(x_vtext)))
 #x_train= np.reshape(x_train, (x_train.shape[0], x_train.shape[1],1))
