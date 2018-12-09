@@ -1,11 +1,11 @@
 #2018
 
-import tensorflow as tf
-import numpy      as np
 import os
 import time
 import datetime
 import data_helpers
+import numpy      as np
+import tensorflow as tf
 from   text_cnn           import TextCNN
 from   tensorflow.contrib import learn
 
@@ -28,21 +28,22 @@ tf.flags.DEFINE_float("l2_reg_lambda"    ,     0.0, "L2 regularization lambda (d
 
 # Training parameters
 tf.flags.DEFINE_integer("batch_size"      ,  64, "Batch Size (default: 64)")
-tf.flags.DEFINE_integer("num_epochs"      ,   1, "Number of training epochs (default: 200)")
+tf.flags.DEFINE_integer("num_epochs"      ,   1, "Number of training epochs (default: 1)")
 tf.flags.DEFINE_integer("evaluate_every"  , 100, "Evaluate model on dev set after this many steps (default: 100)")
 tf.flags.DEFINE_integer("checkpoint_every", 100, "Save model after this many steps (default: 100)")
 tf.flags.DEFINE_integer("num_checkpoints" ,   5, "Number of checkpoints to store (default: 5)")
+
 # Misc Parameters
-tf.flags.DEFINE_boolean("allow_soft_placement", True , "Allow device soft device placement")
+tf.flags.DEFINE_boolean("allow_soft_placement",  True, "Allow device soft device placement")
 tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on devices")
 
 FLAGS = tf.flags.FLAGS
 
-def sethyper(embedding_dim  = 128, filter_sizes = "3,4,5", num_filters = 128, dropout_keep_pro = 0.5, l2_reg_lambda = 0.0):
+def sethypers(embedding_dim = 128, filter_sizes = "3,4,5", num_filters = 128, dropout_keep_prob = 0.5, l2_reg_lambda = 0.0):
 	FLAGS.embedding_dim     = embedding_dim
 	FLAGS.filter_sizes      = filter_sizes
 	FLAGS.num_filters       = num_filters
-	FLAGS.dropout_keep_prob = dropout_keep_pro
+	FLAGS.dropout_keep_prob = dropout_keep_prob
 	FLAGS.l2_reg_lambda     = l2_reg_lambda
 
 def setparams(batch_size    = 64, num_epochs = 1, evaluate_every = 100, checkpoint_every = 100, num_checkpoints = 5):
@@ -89,6 +90,8 @@ def preprocess():
 def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 	# Training
 	# ==================================================
+
+	#x_train, y_train, vocab_processor, x_dev, y_dev = preprocess()
 
 	with tf.Graph().as_default():
 		session_conf = tf.ConfigProto(
@@ -213,7 +216,6 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					print("Saved model checkpoint to {}\n".format(path))
 
 			#Calculating Expanding Means
-
 			avgAccurTrain  = np.sum(listAccurTrain) / (len(listAccurTrain))
 			avgAccurValid  = np.sum(listAccurValid) / (len(listAccurValid))
 
