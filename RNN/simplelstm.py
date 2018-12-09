@@ -14,8 +14,8 @@ from keras.optimizers import RMSprop
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 #inputs the positive and negative examples
-tf.flags.DEFINE_string("Democrat_data_file", "./../data/rt-polaritydata/demtweetstrain.txt", "Data source for Democrat data")
-tf.flags.DEFINE_string("Republican_data_file", "./../data/rt-polaritydata/reptweetstrain.txt", "Data source for Republican data.")
+tf.flags.DEFINE_string("Democrat_data_file", "./../Datasets/trainvaltest/demtweetstrain.txt", "Data source for Democrat data")
+tf.flags.DEFINE_string("Republican_data_file", "./../Datasets/trainvaltest/reptweetstrain.txt", "Data source for Republican data.")
 
 FLAGS = tf.flags.FLAGS
 def preprocess():
@@ -28,7 +28,7 @@ def preprocess():
 
     # Build vocabulary
     max_document_length = max([len(x.split(" ")) for x in x_text])
-    vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length, min_frequency=2) #added min frequency...but if I filter it out before can reduce document length
+    vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length, min_frequency=0) #added min frequency...but if I filter it out before can reduce document length
 #vocab size 59k->21k after filtering out 1 frequencies!!
     x = np.array(list(vocab_processor.fit_transform(x_text)))
 
@@ -46,7 +46,7 @@ def preprocess():
 #RNN network
 def RNN():
     inputs = Input(name='inputs',shape=[max_len])
-    layer = Embedding(max_words,100,input_length=max_len)(inputs)
+    layer = Embedding(max_words,50,input_length=max_len)(inputs)
     layer = LSTM(64)(layer)
     layer = Dense(256,name='FC1')(layer)
     layer = Activation('relu')(layer)
@@ -61,7 +61,7 @@ x_train, y_train, vocab_processor= preprocess()
 max_words= len(vocab_processor.vocabulary_)
 max_len=x_train.shape[1]
 
-x_vtext, y_val = data_helpers2.load_data_and_labels('./../data/rt-polaritydata/demtweetsval.txt', './../data/rt-polaritydata/reptweetsval.txt')
+x_vtext, y_val = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demtweetsval.txt', './../Datasets/trainvaltest/reptweetsval.txt')
 
 x_val = np.array(list(vocab_processor.transform(x_vtext)))
 #x_train= np.reshape(x_train, (x_train.shape[0], x_train.shape[1],1))
@@ -76,7 +76,7 @@ model.compile(loss='binary_crossentropy',optimizer=RMSprop(),metrics=['accuracy'
 save_weights='weights'
 checkpointer=ModelCheckpoint(save_weights, monitor='val_loss', verbose=1, save_best_only=True)
 callbacks_list=[checkpointer]
-model.fit(x_train,y_train,batch_size=64,epochs=10,
+model.fit(x_train,y_train,batch_size=64,epochs=15,
           validation_data=(x_val, y_val), verbose=2, callbacks=callbacks_list) #train the model
 
 """
