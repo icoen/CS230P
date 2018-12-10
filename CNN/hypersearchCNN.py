@@ -13,9 +13,10 @@ dictAvgAccurValid = {}
 listAvgAccurValid = []
 
 def randomize():
-	temp_dict = {"Embedding_dim":rand.randint(1, 128), "Num_filters":rand.randint(1, 128), "Dropout_keep_prob":rand.random(), "L2_reg_lambda":rand.random()}
+	temp_dict = {"Embedding_dim":rand.choice([50, 100, 200, 300]), "Dropout_keep_prob":rand.random(), 
+	               "Num_filters":rand.choice([ 16, 32,  64, 128]),     "L2_reg_lambda":rand.random()}
+	                           
 	return temp_dict
-
 
 def main(argv=None):
 
@@ -30,22 +31,24 @@ def main(argv=None):
 		for key in temp_dict:
 			print(key + ": " + str(temp_dict[key]))
 		
-		training.sethypers(embedding_dim    = temp_dict[embedding_dim],              num_filters = temp_dict[num_filters],  
-						  dropout_keep_prob = temp_dict[dropout_keep_prob],        l2_reg_lambda = l2_reg_lambda)
-		training.setparams(num_epochs       = num_epochs, evaluate_every = 300, checkpoint_every = 300)
-		avgAccurTrain, avgAccurValid        = training.train(x_train, y_train, vocab_processor, x_dev, y_dev)
-		dictAvgAccurTrain[avgAccurTrain]    = temp_dict
-		dictAvgAccurValid[avgAccurValid]    = temp_dict
+		training.sethypers(embedding_dim = temp_dict["Embedding_dim"],            num_filters = temp_dict["Num_filters"],  
+					   dropout_keep_prob = temp_dict["Dropout_keep_prob"],      l2_reg_lambda = temp_dict["L2_reg_lambda"])
+		training.setparams(num_epochs    = num_epochs, evaluate_every = 300, checkpoint_every = 300)
+		avgAccurTrain, avgAccurValid     = training.train(x_train, y_train, vocab_processor, x_dev, y_dev)
+		dictAvgAccurTrain[avgAccurTrain] = temp_dict
+		dictAvgAccurValid[avgAccurValid] = temp_dict
 		listAvgAccurTrain.append(avgAccurTrain)
 		listAvgAccurValid.append(avgAccurValid)
 
+	print("Training Set Performance:/n")
 	for key in dictAvgAccurTrain:
 		print("Acc Train: " + str(key) + " - " + str(dictAvgAccurTrain[key]))
 
+	print("/nValidation Set Performance:")
 	for key in dictAvgAccurValid:
 		print("Acc Valid: " + str(key) + " - " + str(dictAvgAccurValid[key]))
 
-	print("Best Hyperparameters:")
+	print("/nBest Hyperparameters:/n")
 	print("Acc Train: " + str(max(listAvgAccurTrain)) + " - " + str(dictAvgAccurTrain[max(listAvgAccurTrain)]))
 	print("Acc Valid: " + str(max(listAvgAccurValid)) + " - " + str(dictAvgAccurValid[max(listAvgAccurValid)]))
 
