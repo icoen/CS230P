@@ -55,8 +55,7 @@ def preprocess():
 
 	# Build vocabulary
 	max_document_length = max([len(x.split(" ")) for x in x_text])
-	vocab_processor     = learn.preprocessing.VocabularyProcessor(max_document_length, min_frequency = FLAGS.min_freq) #added min frequency...but if I filter it out before can reduce document length
-#vocab size 59k->21k after filtering out 1 frequencies!!
+	vocab_processor     = learn.preprocessing.VocabularyProcessor(max_document_length, min_frequency = FLAGS.min_freq) 
 	x = np.array(list(vocab_processor.fit_transform(x_text)))
 
 	# Randomly shuffle data
@@ -80,7 +79,7 @@ def train():
 		layer  = Dense(FLAGS.dense_output, name = 'FC1')(layer)
 		layer  = Activation('relu')(layer)
 		layer  = Dropout(FLAGS.dropout_keep_prob)(layer)
-		layer  = Dense(1, cname = 'out_layer')(layer)
+		layer  = Dense(1, name = 'out_layer')(layer)
 		layer  = Activation('sigmoid')(layer)
 		model  = Model(inputs = inputs,outputs = layer)
 		return model
