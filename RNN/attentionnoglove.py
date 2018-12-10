@@ -15,8 +15,8 @@ from keras.callbacks import EarlyStopping
 import keras
 
 #inputs the positive and negative examples
-tf.flags.DEFINE_string("positive_data_file", "./../Datasets/trainvaltest/demfulltrain.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "./../Datasets/trainvaltest/repfulltrain.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("positive_data_file", "./../Datasets/trainvaltest/demfulltrain3.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "./../Datasets/trainvaltest/repfulltrain3.txt", "Data source for the negative data.")
 
 FLAGS = tf.flags.FLAGS
 def preprocess():
@@ -76,11 +76,11 @@ model = RNN()
 model.summary()
 model.compile(loss='binary_crossentropy',optimizer=RMSprop(),metrics=['accuracy'])
 
-x_vtext, y_val = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demfullval.txt', './../Datasets/trainvaltest/repfullval.txt')
+x_vtext, y_val = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demfullval3.txt', './../Datasets/trainvaltest/repfullval3.txt')
 
 x_val = np.array(list(vocab_processor.transform(x_vtext)))
 
-model.fit(x_train,y_train,batch_size=64,epochs=10,
+model.fit(x_train,y_train,batch_size=64,epochs=15,
           validation_data=(x_val, y_val), verbose=2)
 
 #,callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001)])
