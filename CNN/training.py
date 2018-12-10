@@ -213,7 +213,7 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					listAccurValid.append(tmpValid)
 				if current_step  % FLAGS.checkpoint_every == 0:
 					#path         = saver.save(sess, checkpoint_prefix, global_step = current_step)
-					#print("Saved model checkpoint to {}\n".format(path))
+					print("Did not save model")
 
 			#Calculating Expanding Means
 			avgAccurTrain  = np.sum(listAccurTrain) / (len(listAccurTrain))
