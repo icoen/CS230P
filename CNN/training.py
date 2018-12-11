@@ -170,7 +170,7 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					feed_dict)
 				time_str = datetime.datetime.now().isoformat()
 				print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
-				train_summary_writer.add_summary(summaries, step)
+				#train_summary_writer.add_summary(summaries, step)
 				return accuracy
 
 			def dev_step(x_batch, y_batch, writer=None):
@@ -187,8 +187,8 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					feed_dict)
 				time_str = datetime.datetime.now().isoformat()
 				print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
-				if writer:
-					writer.add_summary(summaries, step)
+				#if writer:
+				#	writer.add_summary(summaries, step)
 
 				return accuracy
 
