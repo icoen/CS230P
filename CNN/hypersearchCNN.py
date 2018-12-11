@@ -26,6 +26,7 @@ def main(argv=None):
 	x_train, y_train, vocab_processor, x_dev, y_dev = training.preprocess()
 
 	for iterator in range(testCases):
+		print("Test Case " + str(iterator))
 		temp_dict = randomize()
 
 		for key in temp_dict:

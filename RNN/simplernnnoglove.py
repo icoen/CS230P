@@ -14,7 +14,7 @@ from   sklearn.model_selection import train_test_split
 from   keras.callbacks         import EarlyStopping, ModelCheckpoint
 from   keras.layers            import LSTM, Activation, Dense, Dropout, Input, Embedding
 
-#inputs the democrat and reopublican examples
+#inputs the democrat and republican examples
 tf.flags.DEFINE_string("democrat_data_file", "./../Datasets/trainvaltest/demfulltrain.txt", "Data source for the democrat data.")
 tf.flags.DEFINE_string("republic_data_file", "./../Datasets/trainvaltest/repfulltrain.txt", "Data source for the republic data.")
 

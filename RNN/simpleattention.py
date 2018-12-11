@@ -6,15 +6,16 @@ import numpy             as np
 import seaborn           as sns
 import tensorflow        as tf
 import matplotlib.pyplot as plt
+import keras
 from   tensorflow.contrib      import learn
 from   keras.models            import Model
 from   keras.callbacks         import History
 from   keras.optimizers        import RMSprop
 from   sklearn.model_selection import train_test_split
 from   keras.callbacks         import EarlyStopping, ModelCheckpoint
-from   keras.layers            import LSTM, Activation, Dense, Dropout, Input, Embedding,TimeDistributed,Flatten, RepeatVector, Permute, Lambda
+from   keras.layers            import LSTM, Activation, Dense, Dropout, Input, Embedding, TimeDistributed, Flatten, RepeatVector, Permute, Lambda 
 
-#inputs the democrat and reopublican examples
+#inputs the democrat and republican examples
 tf.flags.DEFINE_string("democrat_data_file", "./../Datasets/trainvaltest/demfulltrain.txt", "Data source for the democrat data.")
 tf.flags.DEFINE_string("republic_data_file", "./../Datasets/trainvaltest/repfulltrain.txt", "Data source for the republic data.")
 
@@ -76,16 +77,13 @@ def train():
 		inputs = Input(name = 'inputs', shape = [max_len])
 		layer  = Embedding(max_words, FLAGS.embedding_dim, input_length = max_len)(inputs)
 		activations  = LSTM(FLAGS.lstm, return_sequences = True)(layer)
-
-                attention = TimeDistributed(Dense(1, activation='tanh'))(activations)
-                attention = Flatten()(attention)
-                attention = Activation('softmax')(attention)
-                attention = RepeatVector(FLAGS.lstm)(attention) #same length as lstm
-                attention = Permute([2, 1])(attention)
- 
-     		merged = keras.layers.Multiply()([activations, attention])
-	    	merged = Lambda(lambda xin: keras.backend.sum(xin, axis=-2), output_shape=(64,))(merged)
-
+		attention = TimeDistributed(Dense(1, activation='tanh'))(activations)
+		attention = Flatten()(attention)
+		attention = Activation('softmax')(attention)
+		attention = RepeatVector(FLAGS.lstm)(attention) #same length as lstm
+		attention = Permute([2, 1])(attention)
+		merged = keras.layers.Multiply()([activations, attention])
+		merged = Lambda(lambda xin: keras.backend.sum(xin, axis=-2), output_shape=(FLAGS.lstm,))(merged)
 		layer  = Dense(FLAGS.dense_output, name = 'FC1')(merged)
 		layer  = Activation('relu')(layer)
 		layer  = Dropout(FLAGS.dropout_keep_prob)(layer)
@@ -115,7 +113,7 @@ def train():
 	checkpointer   = ModelCheckpoint(save_weights, monitor = 'val_loss', verbose = 1, save_best_only = True)
 	callbacks_list = [checkpointer]
 	mod = model.fit(x_train,y_train,batch_size = FLAGS.batch_sizeRNN,     epochs = FLAGS.num_epochsRNN,
-				               validation_data = (x_val, y_val),         verbose = 2, callbacks = callbacks_list) #train the model
+							   validation_data = (x_val, y_val),         verbose = 2, callbacks = callbacks_list) #train the model
 
 	#Calculating Expanding Means
 
