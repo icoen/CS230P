@@ -218,7 +218,8 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 			maxAccurTrain = max(listAccurTrain)
 			maxAccurValid = max(listAccurValid)
 
-			return maxAccurTrain, maxAccurValid, listAccurTrain, listAccurValid
+			return maxAccurTrain, maxAccurValid
+			#return maxAccurTrain, maxAccurValid, listAccurTrain, listAccurValid
 
 			#Calculating Expanding Means
 			#avgAccurTrain  = np.sum(listAccurTrain) / (len(listAccurTrain))
