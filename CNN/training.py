@@ -214,8 +214,13 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					#path         = saver.save(sess, checkpoint_prefix, global_step = current_step) #comment out when hypersearching
 					print("Did not save model")
 
-			#Calculating Expanding Means
-			avgAccurTrain  = np.sum(listAccurTrain) / (len(listAccurTrain))
-			avgAccurValid  = np.sum(listAccurValid) / (len(listAccurValid))
+			maxAccurTrain = max(listAccurTrain)
+			maxAccurValid = max(listAccurValid)
 
-			return avgAccurTrain, avgAccurValid
+			return maxAccurTrain, maxAccurValid
+
+			#Calculating Expanding Means
+			#avgAccurTrain  = np.sum(listAccurTrain) / (len(listAccurTrain))
+			#avgAccurValid  = np.sum(listAccurValid) / (len(listAccurValid))
+
+			#return avgAccurTrain, avgAccurValid
