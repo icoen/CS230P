@@ -26,7 +26,7 @@ tf.flags.DEFINE_float("embedding_dim"    ,  50, "Dimensionality of character emb
 tf.flags.DEFINE_float("lstm"             ,  64, "LSTM size (default: 64)")
 tf.flags.DEFINE_float("dense_output"     , 256, "Dense Output (default: 256)")
 tf.flags.DEFINE_float("dropout_keep_prob", 0.5, "Dropout keep probability (default: 0.5)")
-tf.flags.DEFINE_float("learning_rate"    , 0.5, "Dropout keep probability (default: 0.5)")
+tf.flags.DEFINE_float("learning_rate"    , 0.001, "Dropout keep probability (default: 0.5)")
 
 # Training parameters
 tf.flags.DEFINE_integer("batch_sizeRNN", 64, "Batch Size (default: 64)")
@@ -121,10 +121,10 @@ def train():
 	listAccurValid = mod.history['val_acc']
 
 	#Calculating Maximum Accuracies for current model
-	print("LIST")
-	print(listAccurTrain)
-	print(listAccurValid)
-	print("LIST")
+	#print("LIST")
+	#print(listAccurTrain)
+	#print(listAccurValid)
+	#print("LIST")
 
 	maxAccurTrain = max(listAccurTrain)
 	maxAccurValid = max(listAccurValid)
