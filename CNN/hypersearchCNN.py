@@ -1,5 +1,5 @@
 import training
-import fileman
+import fileman	  as fm
 import tensorflow as tf
 import numpy      as np
 import random     as rand
@@ -13,10 +13,16 @@ dropout_keep_prob = 0
 #dictAvgAccurValid = {}
 #listAvgAccurValid = []  
 
+listAccurTrain    = []
+listAccurValid    = []
 dictMaxAccurTrain = {}
 listMaxAccurTrain = []
 dictMaxAccurValid = {}
 listMaxAccurValid = [] 
+
+order=["Embedding_dim", "Num_filters", "Dropout_keep_prob", "L2_reg_lambda"]
+
+filename=fm.initializer(order=order)
 
 def randomize():
 	temp_dict = {"Embedding_dim":rand.choice([50, 100, 200, 300]), "Dropout_keep_prob":rand.random(), 
@@ -48,7 +54,7 @@ def main(argv=None):
 		#listAvgAccurTrain.append(avgAccurTrain)
 		#listAvgAccurValid.append(avgAccurValid)
 
-		maxAccurTrain, maxAccurValid     = training.train(x_train, y_train, vocab_processor, x_dev, y_dev)
+		maxAccurTrain, maxAccurValid, listAccurTrain, listAccurValid = training.train(x_train, y_train, vocab_processor, x_dev, y_dev)
 		dictMaxAccurTrain[maxAccurTrain] = temp_dict
 		dictMaxAccurValid[maxAccurValid] = temp_dict
 		listMaxAccurTrain.append(maxAccurTrain)
@@ -73,6 +79,7 @@ def main(argv=None):
 		print("Acc Train: " + str(key) + " - " + str(dictMaxAccurTrain[key]))
 		#f = open("demofile.txt", "a")
 		#f.write("Acc Train: " + str(key) + " - " + str(dictMaxAccurTrain[key]))
+		fm.write_row_csv(filename,dictMaxAccurTrain,order=dictMaxAccurTrain.keys())
 
 	print("\nValidation Set Performance:\n")
 	for key in dictMaxAccurValid:
