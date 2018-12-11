@@ -1,7 +1,7 @@
 import simpleattention
 import numpy      as np
 import random     as rand
-import fileman	  as fm
+#import fileman	  as fm
 import tensorflow as tf
 
 model = 'ATT'
@@ -21,9 +21,9 @@ dictMaxAccurValid = {}
 listMaxAccurValid = [] 
 
 def randomize():
-	temp_dict = {"LSTM":rand.choice([32, 64, 128, 256]), "Dense_output":rand.choice([64, 128, 256, 512]), "Learning_rate":10**(-4*rand.random()),      
-		   "Batch_size":rand.choice([32, 64, 128, 256]),"Embedding_dim":rand.choice([50, 100, 200, 300]),     "Dropout_keep_prob":rand.random() ,
-			 "Min_freq":rand.randint(1, 3)}
+	temp_dict = {"LSTM":rand.choice([32, 64, 128, 256]), "Dense_output":rand.choice([64, 128, 256, 512]), "Learning_rate":10**(3*rand.random()-4),      
+		   "Batch_size":rand.choice([32, 64, 128, 256]),"Embedding_dim":rand.choice([50, 100, 200, 300]),     "Dropout_keep_prob":(rand.random()*.8+.2) ,
+			 "Min_freq":rand.randint(0, 1)}
 	return temp_dict
 
 def main(argv=None):
@@ -32,6 +32,7 @@ def main(argv=None):
 	num_epochs = int(input('Epochs per test case?: '))
 
 	#x_train, y_train, vocab_processor, x_dev, y_dev = training.preprocess()
+	fout=open('hypersearchATTresults.txt','a')
 
 	for iterator in range(testCases):
 
@@ -49,18 +50,27 @@ def main(argv=None):
 		#dictAvgAccurValid[avgAccurValid]      = temp_dict 
 		#listAvgAccurTrain.append(avgAccurTrain)
 		#listAvgAccurValid.append(avgAccurValid)
-
+ 
 		maxAccurTrain, maxAccurValid          = simpleattention.train()
 		dictMaxAccurTrain[maxAccurTrain]      = temp_dict
 		dictMaxAccurValid[maxAccurValid]      = temp_dict 
 		listMaxAccurTrain.append(maxAccurTrain)
 		listMaxAccurValid.append(maxAccurValid)
+		print ('max Acc Train:', str(maxAccurTrain))
+		print ('max Acc Val:', str(maxAccurValid))
 
+		fout.write ("Acc Train: " + str(temp_dict) + " - " + str(maxAccurTrain)+'\n')
+
+<<<<<<< HEAD
 	print("\nBest Hyperparameters:\n")
 	maxAccurTrains = max(listMaxAccurTrain)
 	maxAccurValids = max(listMaxAccurValid)
 	print("Acc Train: " + str(maxAccurTrains) + " - " + str(dictMaxAccurTrain[maxAccurTrains]))
 	print("Acc Valid: " + str(maxAccurValids) + " - " + str(dictMaxAccurValid[maxAccurValids]))
+||||||| merged common ancestors
+=======
+		fout.write("Acc Valid: " + str(temp_dict) + " - " + str(maxAccurValid)+'\n\n')
+>>>>>>> 2e0fb2f61c1a7e268666b93ea14050903b8fc761
 
 	print("\nTraining Set Performances:\n")
 	
@@ -70,13 +80,43 @@ def main(argv=None):
 		print("Acc Train: " + str(key) + " - " + str(value))
 		fm.write_row_csv(filename, key = key, value = value)
 
+<<<<<<< HEAD
 	print("\nValidation Set Performances:\n")
 
 	filename=fm.initializer(model = ATT, process = "Valid", maxAccur = maxAccurValids, dictMaxAccur = dictMaxAccurTrain[maxAccurTrains])
+||||||| merged common ancestors
+	print("\nTraining Set Performance:\n")
+	for key in dictMaxAccurTrain:
+		print("Acc Train: " + str(key) + " - " + str(dictMaxAccurTrain[key]))
 
+	print("\nValidation Set Performance:\n")
+	for key in dictMaxAccurValid:
+		print("Acc Valid: " + str(key) + " - " + str(dictMaxAccurValid[key]))
+=======
+	print("\nTraining Set Performance:\n")
+	for key in dictMaxAccurTrain:
+		print("Acc Train: " + str(key) + " - " + str(dictMaxAccurTrain[key]))
+	print("\nValidation Set Performance:\n")
+	for key in dictMaxAccurValid:
+		print("Acc Valid: " + str(key) + " - " + str(dictMaxAccurValid[key]))
+>>>>>>> 2e0fb2f61c1a7e268666b93ea14050903b8fc761
+
+<<<<<<< HEAD
 	for key, value in dictMaxAccurValid.items():
 		print("Acc Valid: " + str(key) + " - " + str(value))
 		fm.write_row_csv(filename, key = key, value = value)
+||||||| merged common ancestors
+	print("\nBest Hyperparameters:\n")
+	print("Acc Train: " + str(max(listMaxAccurTrain)) + " - " + str(dictMaxAccurTrain[max(listMaxAccurTrain)]))
+	print("Acc Valid: " + str(max(listMaxAccurValid)) + " - " + str(dictMaxAccurValid[max(listMaxAccurValid)]))
+=======
+	fout.write("\n\nBest Hyperparameters:\n")
+	fout.write("Acc Train: " + str(max(listMaxAccurTrain)) + " - " + str(dictMaxAccurTrain[max(listMaxAccurTrain)])+'\n')
+	fout.write("Acc Valid: " + str(max(listMaxAccurValid)) + " - " + str(dictMaxAccurValid[max(listMaxAccurValid)]))
+	print("\nBest Hyperparameters:\n")
+	print("Acc Train: " + str(max(listMaxAccurTrain)) + " - " + str(dictMaxAccurTrain[max(listMaxAccurTrain)]))
+	print("Acc Valid: " + str(max(listMaxAccurValid)) + " - " + str(dictMaxAccurValid[max(listMaxAccurValid)]))
+>>>>>>> 2e0fb2f61c1a7e268666b93ea14050903b8fc761
 
 if __name__ == '__main__':
 	tf.app.run()

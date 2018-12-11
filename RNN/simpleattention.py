@@ -4,7 +4,7 @@ import datetime
 import data_helpers2
 import numpy             as np
 import seaborn           as sns
-import fileman	  		 as fm
+#import fileman	  		 as fm
 import tensorflow        as tf
 import matplotlib.pyplot as plt
 import keras
@@ -26,7 +26,7 @@ tf.flags.DEFINE_float("embedding_dim"    ,  50, "Dimensionality of character emb
 tf.flags.DEFINE_float("lstm"             ,  64, "LSTM size (default: 64)")
 tf.flags.DEFINE_float("dense_output"     , 256, "Dense Output (default: 256)")
 tf.flags.DEFINE_float("dropout_keep_prob", 0.5, "Dropout keep probability (default: 0.5)")
-tf.flags.DEFINE_float("learning_rate"    , 0.5, "Dropout keep probability (default: 0.5)")
+tf.flags.DEFINE_float("learning_rate"    , 0.001, "Dropout keep probability (default: 0.5)")
 
 # Training parameters
 tf.flags.DEFINE_integer("batch_sizeRNN", 64, "Batch Size (default: 64)")
@@ -61,7 +61,7 @@ def preprocess():
 	x = np.array(list(vocab_processor.fit_transform(x_text)))
 
 	# Randomly shuffle data
-	np.random.seed(10)
+	#np.random.seed(10)
 	shuffle_indices = np.random.permutation(np.arange(len(y)))
 	x_train         = x[shuffle_indices]
 	y_train         = y[shuffle_indices]
@@ -110,22 +110,21 @@ def train():
 	model.summary()
 	model.compile(loss = 'binary_crossentropy',  optimizer = RMSprop(),  metrics = ['accuracy'])
 
-	save_weights   = 'weights200'
-	checkpointer   = ModelCheckpoint(save_weights, monitor = 'val_loss', verbose = 1, save_best_only = True)
-	callbacks_list = [checkpointer]
+	#save_weights   = 'weights200'
+	#checkpointer   = ModelCheckpoint(save_weights, monitor = 'val_acc', verbose = 1, save_best_only = True)
+	#callbacks_list = [checkpointer]
 	mod = model.fit(x_train,y_train,batch_size = FLAGS.batch_sizeRNN,     epochs = FLAGS.num_epochsRNN,
-							   validation_data = (x_val, y_val),         verbose = 2, callbacks = callbacks_list) #train the model
-
+							   validation_data = (x_val, y_val),         verbose = 0)#, callbacks = callbacks_list) #train the model
 	
 
 	listAccurTrain = mod.history['acc']
 	listAccurValid = mod.history['val_acc']
 
 	#Calculating Maximum Accuracies for current model
-	print("LIST")
-	print(listAccurTrain)
-	print(listAccurValid)
-	print("LIST")
+	#print("LIST")
+	#print(listAccurTrain)
+	#print(listAccurValid)
+	#print("LIST")
 
 	maxAccurTrain = max(listAccurTrain)
 	maxAccurValid = max(listAccurValid)
