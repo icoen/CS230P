@@ -107,10 +107,11 @@ def train():
 	mod = model.fit(x_train,y_train,batch_size = FLAGS.batch_sizeRNN,   epochs = FLAGS.num_epochsRNN,
 				               validation_data = (x_val, y_val),       verbose = 2, callbacks = callbacks_list) #train the model
 
+	#Calculating Expanding Means
+
 	listAccurTrain = mod.history['acc']
 	listAccurValid = mod.history['val_acc']
 
-	#Calculating Expanding Means
 	avgAccurTrain  = np.sum(listAccurTrain) / (len(listAccurTrain))
 	avgAccurValid  = np.sum(listAccurValid) / (len(listAccurValid))
 
