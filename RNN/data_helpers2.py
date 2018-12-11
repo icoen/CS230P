@@ -21,7 +21,7 @@ def clean_str(string):
     string = re.sub(r"\)", " \) ", string)
     string = re.sub(r"\?", " \? ", string)
     string = re.sub(r"\s{2,}", " ", string)
-    string=' '.join(word for word in sumstring.split())
+  #  string=' '.join(word for word in sumstring.split())
     return string.strip().lower()
 
 
