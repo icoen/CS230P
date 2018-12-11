@@ -4,6 +4,7 @@ import datetime
 import data_helpers2
 import numpy             as np
 import seaborn           as sns
+import fileman	 		 as fm
 import tensorflow        as tf
 import matplotlib.pyplot as plt
 from   tensorflow.contrib      import learn
@@ -107,15 +108,23 @@ def train():
 	mod = model.fit(x_train,y_train,batch_size = FLAGS.batch_sizeRNN,     epochs = FLAGS.num_epochsRNN,
 				               validation_data = (x_val, y_val),         verbose = 2, callbacks = callbacks_list) #train the model
 
-	#Calculating Expanding Means
 
 	listAccurTrain = mod.history['acc']
 	listAccurValid = mod.history['val_acc']
 
-	avgAccurTrain  = np.sum(listAccurTrain) / (len(listAccurTrain))
-	avgAccurValid  = np.sum(listAccurValid) / (len(listAccurValid))
+	#Calculating Maximum Accuracies for current model
 
-	return avgAccurTrain, avgAccurValid
+	maxAccurTrain = max(listAccurTrain)
+	maxAccurValid = max(listAccurValid)
+
+	return maxAccurTrain, maxAccurValid
+
+	#Calculating Expanding Means
+
+	#avgAccurTrain  = np.sum(listAccurTrain) / (len(listAccurTrain))
+	#avgAccurValid  = np.sum(listAccurValid) / (len(listAccurValid))
+
+	#return avgAccurTrain, avgAccurValid
 
 	"""
 	predictions=model.predict(x_val)
