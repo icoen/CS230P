@@ -75,7 +75,6 @@ def preprocess():
 	y_shuffled          = y[shuffle_indices]
 
 	# Split train/test set
-	# TODO: This is very crude, should use cross-validation
 	dev_sample_index    = -1 * int(FLAGS.dev_sample_percentage * float(len(y)))
 	x_train, x_dev      = x_shuffled[:dev_sample_index], x_shuffled[dev_sample_index:]
 	y_train, y_dev      = y_shuffled[:dev_sample_index], y_shuffled[dev_sample_index:]
@@ -170,7 +169,7 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					feed_dict)
 				time_str = datetime.datetime.now().isoformat()
 				print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
-				#train_summary_writer.add_summary(summaries, step)
+				#train_summary_writer.add_summary(summaries, step) #comment out when hypersearching
 				return accuracy
 
 			def dev_step(x_batch, y_batch, writer=None):
@@ -187,8 +186,8 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					feed_dict)
 				time_str = datetime.datetime.now().isoformat()
 				print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
-				#if writer:
-				#	writer.add_summary(summaries, step)
+				#if writer:								#comment out when hypersearching
+				#	writer.add_summary(summaries, step) #comment out when hypersearching
 
 				return accuracy
 
@@ -212,7 +211,7 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					print("")
 					listAccurValid.append(tmpValid)
 				if current_step  % FLAGS.checkpoint_every == 0:
-					#path         = saver.save(sess, checkpoint_prefix, global_step = current_step)
+					#path         = saver.save(sess, checkpoint_prefix, global_step = current_step) #comment out when hypersearching
 					print("Did not save model")
 
 			#Calculating Expanding Means
