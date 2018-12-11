@@ -60,7 +60,7 @@ def preprocess():
 	x = np.array(list(vocab_processor.fit_transform(x_text)))
 
 	# Randomly shuffle data
-	np.random.seed(10)
+	#np.random.seed(10)
 	shuffle_indices = np.random.permutation(np.arange(len(y)))
 	x_train         = x[shuffle_indices]
 	y_train         = y[shuffle_indices]
@@ -109,11 +109,11 @@ def train():
 	model.summary()
 	model.compile(loss = 'binary_crossentropy',  optimizer = RMSprop(),  metrics = ['accuracy'])
 
-	save_weights   = 'weights200'
-	checkpointer   = ModelCheckpoint(save_weights, monitor = 'val_loss', verbose = 1, save_best_only = True)
-	callbacks_list = [checkpointer]
+	#save_weights   = 'weights200'
+	#checkpointer   = ModelCheckpoint(save_weights, monitor = 'val_acc', verbose = 1, save_best_only = True)
+	#callbacks_list = [checkpointer]
 	mod = model.fit(x_train,y_train,batch_size = FLAGS.batch_sizeRNN,     epochs = FLAGS.num_epochsRNN,
-							   validation_data = (x_val, y_val),         verbose = 2, callbacks = callbacks_list) #train the model
+							   validation_data = (x_val, y_val),         verbose = 2)#, callbacks = callbacks_list) #train the model
 
 	#Calculating Expanding Means
 
