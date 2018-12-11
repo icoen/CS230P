@@ -110,11 +110,11 @@ def train():
 	model.summary()
 	model.compile(loss = 'binary_crossentropy',  optimizer = RMSprop(),  metrics = ['accuracy'])
 
-	save_weights   = 'weights200'
-	checkpointer   = ModelCheckpoint(save_weights, monitor = 'val_loss', verbose = 1, save_best_only = True)
-	callbacks_list = [checkpointer]
+	#save_weights   = 'weights200'
+	#checkpointer   = ModelCheckpoint(save_weights, monitor = 'val_loss', verbose = 1, save_best_only = True)
+	#callbacks_list = [checkpointer]
 	mod = model.fit(x_train,y_train,batch_size = FLAGS.batch_sizeRNN,     epochs = FLAGS.num_epochsRNN,
-							   validation_data = (x_val, y_val),         verbose = 2, callbacks = callbacks_list) #train the model
+							   validation_data = (x_val, y_val),         verbose = 0)#, callbacks = callbacks_list) #train the model
 
 	
 
