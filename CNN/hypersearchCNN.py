@@ -50,7 +50,8 @@ def main(argv=None):
 		#listAvgAccurTrain.append(avgAccurTrain)
 		#listAvgAccurValid.append(avgAccurValid)
 
-		maxAccurTrain, maxAccurValid = rand.random(), rand.random()#maxAccurTrain, maxAccurValid    = training.train(x_train, y_train, vocab_processor, x_dev, y_dev)
+		#maxAccurTrain, maxAccurValid = rand.random(), rand.random()
+		maxAccurTrain, maxAccurValid    = training.train(x_train, y_train, vocab_processor, x_dev, y_dev)
 		dictMaxAccurTrain[maxAccurTrain] = temp_dict
 		dictMaxAccurValid[maxAccurValid] = temp_dict
 		listMaxAccurTrain.append(maxAccurTrain)
