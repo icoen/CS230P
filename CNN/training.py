@@ -5,6 +5,7 @@ import time
 import datetime
 import data_helpers
 import numpy      as np
+import fileman	  as fm
 import tensorflow as tf
 from   text_cnn           import TextCNN
 from   tensorflow.contrib import learn
@@ -217,7 +218,7 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 			maxAccurTrain = max(listAccurTrain)
 			maxAccurValid = max(listAccurValid)
 
-			return maxAccurTrain, maxAccurValid
+			return maxAccurTrain, maxAccurValid, listAccurTrain, listAccurValid
 
 			#Calculating Expanding Means
 			#avgAccurTrain  = np.sum(listAccurTrain) / (len(listAccurTrain))
