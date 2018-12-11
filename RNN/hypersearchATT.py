@@ -30,6 +30,7 @@ def main(argv=None):
 	num_epochs = int(input('Epochs per test case?: '))
 
 	#x_train, y_train, vocab_processor, x_dev, y_dev = training.preprocess()
+	fout=open('hypersearchATTresults.txt','a')
 
 	for iterator in range(testCases):
 
@@ -47,13 +48,18 @@ def main(argv=None):
 		#dictAvgAccurValid[avgAccurValid]      = temp_dict 
 		#listAvgAccurTrain.append(avgAccurTrain)
 		#listAvgAccurValid.append(avgAccurValid)
-
+ 
 		maxAccurTrain, maxAccurValid          = simpleattention.train()
 		dictMaxAccurTrain[maxAccurTrain]      = temp_dict
 		dictMaxAccurValid[maxAccurValid]      = temp_dict 
 		listMaxAccurTrain.append(maxAccurTrain)
 		listMaxAccurValid.append(maxAccurValid)
+		print ('max Acc Train:', str(maxAccurTrain))
+		print ('max Acc Val:', str(maxAccurValid))
 
+		fout.write ("Acc Train: " + str(temp_dict) + " - " + str(maxAccurTrain)+'\n')
+
+		fout.write("Acc Valid: " + str(temp_dict) + " - " + str(maxAccurValid)+'\n\n')
 
 	#for key in dictAvgAccurTrain:
 	#	print("Acc Train: " + str(key) + " - " + str(dictAvgAccurTrain[key]))
@@ -64,20 +70,16 @@ def main(argv=None):
 	#print("Best Hyperparameters:")
 	#print("Acc Train: " + str(max(listAvgAccurTrain)) + " - " + str(dictAvgAccurTrain[max(listAvgAccurTrain)]))
 	#print("Acc Valid: " + str(max(listAvgAccurValid)) + " - " + str(dictAvgAccurValid[max(listAvgAccurValid)]))
-        fout=open('hypersearchATTresults.txt','a')
+
 	print("\nTraining Set Performance:\n")
-        fout.write("\nTraining Set Performance:\n")
 	for key in dictMaxAccurTrain:
 		print("Acc Train: " + str(key) + " - " + str(dictMaxAccurTrain[key]))
-		fout.write ("Acc Train: " + str(key) + " - " + str(dictMaxAccurTrain[key]))
 	print("\nValidation Set Performance:\n")
-        fout.write("\nValidation Set Performance:\n")
 	for key in dictMaxAccurValid:
-                fout.write("Acc Valid: " + str(key) + " - " + str(dictMaxAccurValid[key]))
 		print("Acc Valid: " + str(key) + " - " + str(dictMaxAccurValid[key]))
 
-        fout.write("\nBest Hyperparameters:\n")
-	fout.write("Acc Train: " + str(max(listMaxAccurTrain)) + " - " + str(dictMaxAccurTrain[max(listMaxAccurTrain)]))
+	fout.write("\n\nBest Hyperparameters:\n")
+	fout.write("Acc Train: " + str(max(listMaxAccurTrain)) + " - " + str(dictMaxAccurTrain[max(listMaxAccurTrain)])+'\n')
 	fout.write("Acc Valid: " + str(max(listMaxAccurValid)) + " - " + str(dictMaxAccurValid[max(listMaxAccurValid)]))
 	print("\nBest Hyperparameters:\n")
 	print("Acc Train: " + str(max(listMaxAccurTrain)) + " - " + str(dictMaxAccurTrain[max(listMaxAccurTrain)]))
