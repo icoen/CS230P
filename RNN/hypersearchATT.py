@@ -3,6 +3,7 @@ import numpy      as np
 import random     as rand
 #import fileman	  as fm
 import tensorflow as tf
+import math
 
 embedding_dim     = 0
 num_filters       = 0
@@ -19,9 +20,9 @@ dictMaxAccurValid = {}
 listMaxAccurValid = [] 
 
 def randomize():
-	temp_dict = {"LSTM":rand.choice([32, 64, 128, 256]), "Dense_output":rand.choice([64, 128, 256, 512]), "Learning_rate":10**(3*rand.random()-4),      
-		   "Batch_size":rand.choice([32, 64, 128, 256]),"Embedding_dim":rand.choice([50, 100, 200, 300]),     "Dropout_keep_prob":(rand.random()*.8+.2) ,
-			 "Min_freq":rand.randint(0, 1)}
+	temp_dict = {"LSTM":rand.choice([32, 64, 128, 256]), "Dense_output":rand.choice([32, 64, 128, 256]), "Learning_rate":10**(3*rand.random()-4),      
+		   "Batch_size":rand.choice([8,16, 32, 64, 128]),"Embedding_dim":int(rand.random()*250 +50),     "Dropout_keep_prob":(rand.random()*.8+.2) ,
+			 "Min_freq":0}
 	return temp_dict
 
 def main(argv=None):
@@ -30,7 +31,7 @@ def main(argv=None):
 	num_epochs = int(input('Epochs per test case?: '))
 
 	#x_train, y_train, vocab_processor, x_dev, y_dev = training.preprocess()
-	fout=open('hypersearchATTresults.txt','a')
+	fout=open('hypersearchATTresults.txt','w')
 
 	for iterator in range(testCases):
 
@@ -84,6 +85,7 @@ def main(argv=None):
 	print("\nBest Hyperparameters:\n")
 	print("Acc Train: " + str(max(listMaxAccurTrain)) + " - " + str(dictMaxAccurTrain[max(listMaxAccurTrain)]))
 	print("Acc Valid: " + str(max(listMaxAccurValid)) + " - " + str(dictMaxAccurValid[max(listMaxAccurValid)]))
+        fout.close()
 
 if __name__ == '__main__':
 	tf.app.run()
