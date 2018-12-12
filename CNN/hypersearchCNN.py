@@ -21,8 +21,11 @@ dictMaxAccurValid = {}
 listMaxAccurValid = [] 
 
 def randomize():
-	temp_dict = {"Embedding_dim":rand.choice([50, 100, 200, 300]), "Dropout_keep_prob":rand.random(), 
-				   "Num_filters":rand.choice([ 16, 32,  64, 128]),     "L2_reg_lambda":rand.random()}
+	#temp_dict = {"Embedding_dim":rand.choice([50, 100, 200, 300]), "Dropout_keep_prob":rand.random(), 
+	#			   "Num_filters":rand.choice([ 16, 32,  64, 128]),     "L2_reg_lambda":rand.random()}
+
+	temp_dict = {"Embedding_dim":100, "Dropout_keep_prob":rand.uniform(0.3, 0.7), 
+				   "Num_filters":128,     "L2_reg_lambda":rand.uniform(0.1, 0.5)}
 							   
 	return temp_dict
 
