@@ -4,6 +4,8 @@ import random     as rand
 import fileman	  as fm
 import tensorflow as tf
 
+model = 'RNN'
+
 embedding_dim     = 0
 num_filters       = 0
 dropout_keep_prob = 0
@@ -54,27 +56,27 @@ def main(argv=None):
 		listMaxAccurTrain.append(maxAccurTrain)
 		listMaxAccurValid.append(maxAccurValid)
 
-	#for key in dictAvgAccurTrain:
-	#	print("Acc Train: " + str(key) + " - " + str(dictAvgAccurTrain[key]))
-
-	#for key in dictAvgAccurValid:
-	#	print("Acc Valid: " + str(key) + " - " + str(dictAvgAccurValid[key]))
-
-	#print("Best Hyperparameters:")
-	#print("Acc Train: " + str(max(listAvgAccurTrain)) + " - " + str(dictAvgAccurTrain[max(listAvgAccurTrain)]))
-	#print("Acc Valid: " + str(max(listAvgAccurValid)) + " - " + str(dictAvgAccurValid[max(listAvgAccurValid)]))
-
-	print("\nTraining Set Performance:\n")
-	for key in dictMaxAccurTrain:
-		print("Acc Train: " + str(key) + " - " + str(dictMaxAccurTrain[key]))
-
-	print("\nValidation Set Performance:\n")
-	for key in dictMaxAccurValid:
-		print("Acc Valid: " + str(key) + " - " + str(dictMaxAccurValid[key]))
-
 	print("\nBest Hyperparameters:\n")
-	print("Acc Train: " + str(max(listMaxAccurTrain)) + " - " + str(dictMaxAccurTrain[max(listMaxAccurTrain)]))
-	print("Acc Valid: " + str(max(listMaxAccurValid)) + " - " + str(dictMaxAccurValid[max(listMaxAccurValid)]))
+	maxAccurTrains = max(listMaxAccurTrain)
+	maxAccurValids = max(listMaxAccurValid)
+	print("Acc Train: " + str(maxAccurTrains) + " - " + str(dictMaxAccurTrain[maxAccurTrains]))
+	print("Acc Valid: " + str(maxAccurValids) + " - " + str(dictMaxAccurValid[maxAccurValids]))
+
+	print("\nTraining Set Performances:\n")
+	
+	filename=fm.initializer(model = model, process = "Train", maxAccur = maxAccurTrains, dictMaxAccur = dictMaxAccurTrain[maxAccurTrains])
+
+	for key, value in dictMaxAccurTrain.items():
+		print("Acc Train: " + str(key) + " - " + str(value))
+		fm.write_row_csv(filename, key = key, value = value)
+
+	print("\nValidation Set Performances:\n")
+
+	filename=fm.initializer(model = model, process = "Valid", maxAccur = maxAccurValids, dictMaxAccur = dictMaxAccurTrain[maxAccurTrains])
+
+	for key, value in dictMaxAccurValid.items():
+		print("Acc Valid: " + str(key) + " - " + str(value))
+		fm.write_row_csv(filename, key = key, value = value)
 
 if __name__ == '__main__':
 	tf.app.run()
