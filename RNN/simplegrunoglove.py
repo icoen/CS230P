@@ -70,8 +70,47 @@ x_vtext, y_val = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/
 
 x_val = np.array(list(vocab_processor.transform(x_vtext)))
 
-model.fit(x_train,y_train,batch_size=64,epochs=15,
-          validation_data=(x_val, y_val), verbose=2)
+save_weights='weightsg'
+checkpointer=ModelCheckpoint(save_weights, monitor='val_acc', verbose=1, save_best_only=True)
+callbacks_list=[checkpointer]
+model.fit(x_train,y_train,batch_size=64,epochs=10,
+          validation_data=(x_val, y_val), verbose=2, callbacks=callbacks_list)
+
+
+x_ttext, y_test = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demfulltest.txt', './../Datasets/trainvaltest/repfulltest.txt')
+x_test= np.array(list(vocab_processor.transform(x_ttext)))
+
+modelm=RNN()
+# load weights
+modelm.load_weights("weightsg")
+# Compile model (required to make predictions)
+modelm.compile(loss='binary_crossentropy', optimizer=RMSprop(), metrics=['accuracy'])
+
+predictions=modelm.predict(x_val)
+
+predictionst=modelm.predict(x_test)
+
+print (predictions[0])
+
+def printerr(fname,predictions, y_val, x_val):
+    fpred=open(fname,'w')
+
+    j=0
+    x_errors=[]
+
+    for i in range(len(predictions)):
+        if (predictions[i]>=0.5 and y_val[i]==0) or (predictions[i]<0.5 and y_val[i]==1):
+	    x_errors.append(str(y_val[i])+', '+x_val[i])
+	    j+=1
+
+	#np.savetxt('predictions.csv',x_errors)
+    for errors in x_errors:
+	fpred.write(errors)
+	fpred.write('\n')
+    fpred.close()
+#,callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001)])
+printerr('predictvalg.txt', predictions, y_val, x_vtext)
+printerr('predicttestg.txt', predictionst, y_test, x_ttext)
 
 #,callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001)])
 
