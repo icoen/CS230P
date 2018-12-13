@@ -15,10 +15,12 @@ from   tensorflow.contrib import learn
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage"   , .1, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("democrat_data_file"     , "../Datasets/trainvaltest/demtweetstrain.txt", "Dataset of democrat train tweets")
-tf.flags.DEFINE_string("republican_data_file"   , "../Datasets/trainvaltest/reptweetstrain.txt", "Dataset of republic train tweets")
-tf.flags.DEFINE_string("democrat_data_fileVal"  , "../Datasets/trainvaltest/demtweetsval.txt"  , "Dataset of democrat valid tweets")
-tf.flags.DEFINE_string("republican_data_fileVal", "../Datasets/trainvaltest/reptweetsval.txt"  , "Dataset of republic valod tweets")
+tf.flags.DEFINE_string("democrat_data_file"     , "../Datasets/trainvaltest/demfulltrain.txt", "Dataset of democrat train tweets")
+tf.flags.DEFINE_string("republican_data_file"   , "../Datasets/trainvaltest/repfulltrain.txt", "Dataset of republic train tweets")
+tf.flags.DEFINE_string("democrat_data_fileVal"  , "../Datasets/trainvaltest/demfullval.txt"  , "Dataset of democrat validation tweets")
+tf.flags.DEFINE_string("republican_data_fileVal", "../Datasets/trainvaltest/repfullval.txt"  , "Dataset of republic validation tweets")
+tf.flags.DEFINE_string("democrat_data_fileTest"  , "../Datasets/trainvaltest/demfulltest.txt"  , "Dataset of democrat test tweets")
+tf.flags.DEFINE_string("republican_data_fileTest", "../Datasets/trainvaltest/repfulltest.txt"  , "Dataset of republic test tweets")
 
 # Model Hyperparameters
 tf.flags.DEFINE_integer("embedding_dim"  ,     128, "Dimensionality of character embedding (default: 128)")
@@ -62,32 +64,34 @@ def preprocess():
 	print("Loading data...")
 	x_text, y      = data_helpers.load_data_and_labels(FLAGS.democrat_data_file,    FLAGS.republican_data_file)
 	x_vtext, y_val = data_helpers.load_data_and_labels(FLAGS.democrat_data_fileVal, FLAGS.republican_data_fileVal)
+	x_ttext, y_test = data_helpers.load_data_and_labels(FLAGS.democrat_data_fileTest, FLAGS.republican_data_fileTest)
 
 	# Build vocabulary
 	max_document_length = max([len(x.split(" ")) for x in x_text])
 	vocab_processor     = learn.preprocessing.VocabularyProcessor(max_document_length)
 	x                   = np.array(list(vocab_processor.fit_transform(x_text )))
 	x_val               = np.array(list(vocab_processor.transform(x_vtext)))
+	x_test		    = np.array(list(vocab_processor.transform(x_ttext)))
 
 	# Randomly shuffle data
 	np.random.seed(10)
 	shuffle_indices     = np.random.permutation(np.arange(len(y)))
-	x_shuffled          = x[shuffle_indices]
-	y_shuffled          = y[shuffle_indices]
+	x_train             = x[shuffle_indices]
+	y_train             = y[shuffle_indices]
 
 	# Split train/test set
-	dev_sample_index    = -1 * int(FLAGS.dev_sample_percentage * float(len(y)))
-	x_train, x_dev      = x_shuffled[:dev_sample_index], x_shuffled[dev_sample_index:]
-	y_train, y_dev      = y_shuffled[:dev_sample_index], y_shuffled[dev_sample_index:]
+	#dev_sample_index    = -1 * int(FLAGS.dev_sample_percentage * float(len(y)))
+	#x_train, x_dev      = x_shuffled[:dev_sample_index], x_shuffled[dev_sample_index:]
+	#y_train, y_dev      = y_shuffled[:dev_sample_index], y_shuffled[dev_sample_index:]
 
-	del x, y, x_shuffled, y_shuffled
+	del x, y#, x_shuffled, y_shuffled
 
 	print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
-	print("Train/Dev split: {:d}/{:d}".format(len(y_train), len(y_dev)))
+	#print("Train/Dev split: {:d}/{:d}".format(len(y_train), len(y_dev)))
 
-	return x_train, y_train, vocab_processor, x_val, y_val   # us:val   orig:dev
+	return x_train, y_train, vocab_processor, x_val, y_val, x_test, y_test   # us:val   orig:dev
 
-def train(x_train, y_train, vocab_processor, x_dev, y_dev):
+def train(x_train, y_train, vocab_processor, x_dev, y_dev, x_test, y_test):
 	# Training
 	# ==================================================
 
@@ -200,25 +204,34 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 
 			listAccurTrain  = []
 			listAccurValid  = []
+			listAccurTest   = []
 
 			for batch in batches:
 				x_batch, y_batch = zip(*batch)
 				tmpTrain         = train_step(x_batch, y_batch)
-				listAccurTrain.append(tmpTrain)
+				#listAccurTrain.append(tmpTrain)
+				#listAccurTrain.append(tmpTrain)
+
 				current_step     = tf.train.global_step(sess, global_step)
 				if current_step  % FLAGS.evaluate_every == 0:
 					print("\nEvaluation:")
 					tmpValid     = dev_step(x_dev, y_dev, writer = dev_summary_writer)
+					tmpTest      = dev_step(x_test, y_test)
+					tmpTrain     = dev_step(x_train, y_train)
+                                        
 					print("")
 					listAccurValid.append(tmpValid)
+					listAccurTest.append(tmpTest)
+					listAccurTrain.append(tmpTrain)
 				if current_step  % FLAGS.checkpoint_every == 0:
 					#path         = saver.save(sess, checkpoint_prefix, global_step = current_step) #comment out when hypersearching
 					print("Did not save model")
 
-			maxAccurTrain = max(listAccurTrain)
-			maxAccurValid = max(listAccurValid)
+			#maxAccurTrain = max(listAccurTrain)
+			maxind = np.argmax(listAccurValid)
 
-			return maxAccurTrain, maxAccurValid
+			#return maxAccurTrain, maxAccurValid
+			return listAccurTrain[maxind], listAccurValid[maxind], listAccurTest[maxind]
 			#return maxAccurTrain, maxAccurValid, listAccurTrain, listAccurValid
 
 			#Calculating Expanding Means

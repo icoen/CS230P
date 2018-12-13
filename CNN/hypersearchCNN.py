@@ -24,8 +24,11 @@ def randomize():
 	#temp_dict = {"Embedding_dim":rand.choice([50, 100, 200, 300]), "Dropout_keep_prob":rand.random(), 
 	#			   "Num_filters":rand.choice([ 16, 32,  64, 128]),     "L2_reg_lambda":rand.random()}
 
-	temp_dict = {"Embedding_dim":100, "Dropout_keep_prob":rand.uniform(0.3, 0.7), 
-				   "Num_filters":128,     "L2_reg_lambda":rand.uniform(0.1, 0.5)}
+	temp_dict = {"Embedding_dim":100, "Dropout_keep_prob":.519, 
+				   "Num_filters":128,     "L2_reg_lambda":.345}
+	
+	#temp_dict = {"Embedding_dim":100, "Dropout_keep_prob":rand.uniform(0.3, 0.7), 
+	#			   "Num_filters":128,     "L2_reg_lambda":rand.uniform(0.1, 0.5)}
 							   
 	return temp_dict
 
@@ -34,7 +37,7 @@ def main(argv=None):
 	testCases  = int(input('Number of test cases?: '))
 	num_epochs = int(input('Epochs per test case?: '))
 
-	x_train, y_train, vocab_processor, x_dev, y_dev = training.preprocess()
+	x_train, y_train, vocab_processor, x_dev, y_dev, x_test, y_test = training.preprocess()
 
 	for iterator in range(testCases):
 
@@ -54,11 +57,12 @@ def main(argv=None):
 		#listAvgAccurValid.append(avgAccurValid)
 
 		#maxAccurTrain, maxAccurValid = rand.random(), rand.random()
-		maxAccurTrain, maxAccurValid    = training.train(x_train, y_train, vocab_processor, x_dev, y_dev)
+		maxAccurTrain, maxAccurValid, maxAccurTest    = training.train(x_train, y_train, vocab_processor, x_dev, y_dev, x_test, y_test)
 		dictMaxAccurTrain[maxAccurTrain] = temp_dict
 		dictMaxAccurValid[maxAccurValid] = temp_dict
 		listMaxAccurTrain.append(maxAccurTrain)
 		listMaxAccurValid.append(maxAccurValid)
+		print (str(maxAccurTrain)+'\t'+ str(maxAccurValid)+'\t'+ str(maxAccurTest))
 
 	print("\nBest Hyperparameters:\n")
 	maxAccurTrains = max(listMaxAccurTrain)
