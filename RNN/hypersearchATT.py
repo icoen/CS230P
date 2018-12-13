@@ -22,8 +22,8 @@ dictMaxAccurValid = {}
 listMaxAccurValid = [] 
 
 def randomize():
-	temp_dict = {"LSTM":rand.choice([64, 128]), "Dense_output":64, "Learning_rate":10**(1.5*rand.random()-2.5),      
-		   "Batch_size":rand.choice([32, 64, 128]),"Embedding_dim":rand.choice([50, 100, 200],     "Dropout_keep_prob":(rand.random()*.5+.3) ,
+	temp_dict = {"LSTM": 64, "Dense_output":64, "Learning_rate":10**(1.5*rand.random()-2.5),      
+		   "Batch_size":rand.choice([32, 64, 128]),"Embedding_dim":rand.choice([50, 100, 200]), "Dropout_keep_prob":(rand.random()*.5+.3) ,
 			 "Min_freq":0}
 	return temp_dict
 

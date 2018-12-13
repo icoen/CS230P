@@ -108,7 +108,7 @@ def train():
 
 	model = RNN()
 	model.summary()
-	model.compile(loss = 'binary_crossentropy',  optimizer = RMSprop(),  metrics = ['accuracy'])
+	model.compile(loss = 'binary_crossentropy',  optimizer = RMSprop(lr=FLAGS.learning_rate),  metrics = ['accuracy'])
 
 	#save_weights   = 'weights200'
 	#checkpointer   = ModelCheckpoint(save_weights, monitor = 'val_acc', verbose = 1, save_best_only = True)
@@ -121,10 +121,10 @@ def train():
 	listAccurValid = mod.history['val_acc']
 
 	#Calculating Maximum Accuracies for current model
-	#print("LIST")
-	#print(listAccurTrain)
-	#print(listAccurValid)
-	#print("LIST")
+	print("LIST")
+	print(listAccurTrain)
+	print(listAccurValid)
+	print("LIST")
 
 	maxAccurTrain = max(listAccurTrain)
 	maxAccurValid = max(listAccurValid)
