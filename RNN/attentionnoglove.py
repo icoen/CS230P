@@ -11,12 +11,12 @@ from sklearn.model_selection import train_test_split
 from keras.models import Model
 from keras.layers import LSTM, Activation, Dense, Dropout, Input, Embedding, TimeDistributed,Flatten, RepeatVector, Permute, Lambda, GRU
 from keras.optimizers import RMSprop
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping,  ModelCheckpoint
 import keras
 
 #inputs the positive and negative examples
-tf.flags.DEFINE_string("positive_data_file", "./../Datasets/trainvaltest/demfulltrain3.txt", "Data source for the positive data.")
-tf.flags.DEFINE_string("negative_data_file", "./../Datasets/trainvaltest/repfulltrain3.txt", "Data source for the negative data.")
+tf.flags.DEFINE_string("positive_data_file", "./../Datasets/trainvaltest/demfulltrain.txt", "Data source for the positive data.")
+tf.flags.DEFINE_string("negative_data_file", "./../Datasets/trainvaltest/repfulltrain.txt", "Data source for the negative data.")
 
 FLAGS = tf.flags.FLAGS
 def preprocess():
@@ -46,7 +46,7 @@ def preprocess():
 #RNN network
 def RNN():
     inputs = Input(name='inputs',shape=[max_len])
-    layer = Embedding(max_words,50,input_length=max_len)(inputs)
+    layer = Embedding(max_words,300,input_length=max_len)(inputs)
     activations = LSTM(64, return_sequences = True)(layer)
 
     attention = TimeDistributed(Dense(1, activation='tanh'))(activations)
@@ -57,8 +57,8 @@ def RNN():
  
     merged = keras.layers.Multiply()([activations, attention])
     merged = Lambda(lambda xin: keras.backend.sum(xin, axis=-2), output_shape=(64,))(merged)
-    probabilities = Dense(256, name = 'FC1', activation = 'relu')(merged)
-    probabilities = Dropout(0.5)(probabilities)
+    probabilities = Dense(64, name = 'FC1', activation = 'relu')(merged)
+    probabilities = Dropout(0.44)(probabilities)
  
     probabilities = Dense(1, name = 'out_layer', activation = 'sigmoid')(probabilities)
 
@@ -74,14 +74,54 @@ max_len=x_train.shape[1]
 
 model = RNN()
 model.summary()
-model.compile(loss='binary_crossentropy',optimizer=RMSprop(),metrics=['accuracy'])
+model.compile(loss='binary_crossentropy',optimizer=RMSprop(lr=.00366),metrics=['accuracy'])
 
-x_vtext, y_val = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demfullval3.txt', './../Datasets/trainvaltest/repfullval3.txt')
+x_vtext, y_val = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demfullval.txt', './../Datasets/trainvaltest/repfullval.txt')
+x_ttext, y_test = data_helpers2.load_data_and_labels('./../Datasets/trainvaltest/demfulltest.txt', './../Datasets/trainvaltest/repfulltest.txt')
 
 x_val = np.array(list(vocab_processor.transform(x_vtext)))
+x_test= np.array(list(vocab_processor.transform(x_ttext)))
 
-model.fit(x_train,y_train,batch_size=64,epochs=15,
-          validation_data=(x_val, y_val), verbose=2)
+save_weights   = 'weightsf2'
+checkpointer   = ModelCheckpoint(save_weights, monitor = 'val_acc', verbose = 1, save_best_only = True)
+callbacks_list = [checkpointer]
+model.fit(x_train,y_train,batch_size = 128,     epochs = 5,
+							   validation_data = (x_val, y_val),         verbose = 2, callbacks = callbacks_list) #train the model
 
+#model.fit(x_train,y_train,batch_size=128,epochs=10,
+#          validation_data=(x_val, y_val), verbose=2)
+
+
+
+modelm=RNN()
+# load weights
+modelm.load_weights("weightsf2")
+# Compile model (required to make predictions)
+modelm.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+predictions=modelm.predict(x_val)
+
+predictionst=modelm.predict(x_test)
+
+print (predictions[0])
+
+def printerr(fname,predictions, y_val, x_val):
+    fpred=open(fname,'w')
+
+    j=0
+    x_errors=[]
+
+    for i in range(len(predictions)):
+       # if (predictions[i]>=0.5 and y_val[i]==0) or (predictions[i]<0.5 and y_val[i]==1):
+	#    x_errors.append(str(y_val[i])+', '+x_val[i])
+	 #   j+=1
+        x_errors.append(str(predictions[i])+', '+str(y_val[i])+', '+x_val[i])
+	#np.savetxt('predictions.csv',x_errors)
+    for errors in x_errors:
+	fpred.write(errors)
+	fpred.write('\n')
+    fpred.close()
 #,callbacks=[EarlyStopping(monitor='val_loss',min_delta=0.0001)])
+printerr('predictval.txt', predictions, y_val, x_vtext)
+printerr('predicttest.txt', predictionst, y_test, x_ttext)
 
