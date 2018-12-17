@@ -1,13 +1,12 @@
 f1=open('weightsf2','w')
-fi1=open('weights1','r')
-fi2=open('weights2','r')
 
-for line in fi1:
-    f1.write(line)
-for line in fi2:
-    f1.write(line)
+with open('weights1', 'rb') as fi1:
+    contents = fi1.read()
+    f1.write(contents)
+
+with open('weights2', 'rb') as fi2:
+    contents = fi2.read()
+    f1.write(contents)
 
     
 f1.close()
-fi1.close()
-fi2.close()
