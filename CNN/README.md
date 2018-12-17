@@ -5,3 +5,33 @@ Autumn 2018 Project
 Jorge Cordero, Eddie Sun, Zoey Zhou 
 {icoen, eddiesun, cuizy} @stanford.edu
 
+This project classifies political affiliation from tweets using a convolutional neural network(CNN) and a long-short-term-memory network with attention (LSTM-Attn).
+
+<h2>Hyperparameter Search</h2>
+To run the Hyperparameter search, run:
+
+<code> ./hypersearchCNN.py </code> 
+
+Parameters asked: 
+
+Test cases: Number of spawns you want to explore, 
+Epochs: Number of epochs you want each test case to train for.  
+
+<h2>Training</h2>
+
+To run the Training, run:
+
+<code> ./main.py </code> 
+
+Parameters asked: 
+
+Epochs: Number of epochs you want to train your model.  
+
+<h2>Testing</h2>
+
+<code> ./testing.py  --test_all --checkpoint_dir="./runs/CHECKPOINT/checkpoints/" </code> 
+  
+Replace CHECKPOINT with the ID number of your trained model on the "runs" folder.
+  
+Remove <code>--test_all</code> to test for specific example tweets instead of the full testing datasets, and insert the specific tweets in the <code> ./testing.py </code> file.
+
