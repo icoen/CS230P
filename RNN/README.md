@@ -15,5 +15,5 @@ we implemented 4 additional models, the LSTM (lstm), bi-directional LSTM (bilstm
 
 <code> python train\<model\>.py </code> 
 
-Trains over 10 epochs and saves the best weights according to dev. accuracy.
+Trains over 10 epochs and saves the best weights according to dev. accuracy in file weights\<model\>new
 
