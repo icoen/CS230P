@@ -29,14 +29,20 @@ To run the Training, run:
 
 <code> python trainatt.py </code> 
 
-using the best hyperparameters found during the hyperparameter search as documented in the report for this project.
+using the best hyperparameters found during the hyperparameter search as documented in the report for this project.  Saves best weight as *weightsfdnew*.
 
 <h2>LSTM-Attn. Testing</h2>
 
+For both types of testing you must first run 
+
+```python mergeweights.py```
+
+which will combine *weights1* and *weights2* into one file *weightsf2* which can then be loaded as weights.  We had to split the weight files due to size limitations of github.
+
 <code> python evaltest.py  </code> 
   
-loads the tokenization from vocabdict and weights from weightsf2, the weights we use in our report.  And evaluates on the test data.  Outputs the accuracy, and the number of correct predictions for democrats and republicans.  You can change vocabdict, weightsf2 and the test data files within the python file to evaluate using new trained models and on different test data.
+loads the tokenization from *vocabdict* and weights from *weightsf2*, the weights we use in our report.  And evaluates on the test data.  Outputs the accuracy, and the number of correct predictions for democrats and republicans.  You can change *vocabdict*, *weightsf2* and the test data files within the python file to evaluate user specified test data on newly trained models.
   
 <code> python evalnew.py  </code> 
 
-loads the tokenization from vocabdict and weights from weightsf2.  Repeatedly asks for a sentence to predict in terminal and outputs the p value for democrat and republican.  Can input any sentences surrounded by quotes.  Enter \`END' to end.  
+loads the tokenization from *vocabdict* and weights from *weightsf2*.  Repeatedly asks for a sentence to predict in terminal and outputs the p value as a percentage for democrat and republican.  Can input any sentences surrounded by quotes.  Enter 'END' to end.  
