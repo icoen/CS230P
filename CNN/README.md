@@ -28,7 +28,7 @@ You will be asked if you want to use the default hyperparameters or enter yours.
 Parameters asked: 
 
 embedding_dim: Embedding dimension 
-num_filters: Number of filters to usedropout_keep_prob = float(input('Droput?:  '   ))
+num_filters: Number of filters to use
 dropout_keep_prob: Dropout Probability
 l2_reg_lambda: L2 Regularization Lambda
 num_epochs: Number of epochs you want to train your model.  
