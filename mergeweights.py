@@ -1,4 +1,4 @@
-f1=open('weightsf2','w')
+f1=open('weightsf2','wb')
 
 with open('weights1', 'rb') as fi1:
     contents = fi1.read()
