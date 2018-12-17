@@ -14,8 +14,8 @@ To run the Hyperparameter search, run:
 
 Parameters asked: 
 
-Test cases: Number of spawns you want to explore, 
-Epochs: Number of epochs you want each test case to train for.  
+testCases: Number of spawns you want to explore, 
+num_epochs: Number of epochs you want each test case to train for.  
 
 <h2>CNN Training</h2>
 
@@ -23,9 +23,15 @@ To run the Training, run:
 
 <code> python runTraining.py </code> 
 
+You will be asked if you want to use the default hyperparameters or enter yours.
+
 Parameters asked: 
 
-Epochs: Number of epochs you want to train your model.  
+embedding_dim: Embedding dimension 
+num_filters: Number of filters to usedropout_keep_prob = float(input('Droput?:  '   ))
+dropout_keep_prob: Dropout Probability
+l2_reg_lambda: L2 Regularization Lambda
+num_epochs: Number of epochs you want to train your model.  
 
 <h2>CNN Testing</h2>
 
