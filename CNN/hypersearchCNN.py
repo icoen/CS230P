@@ -24,8 +24,8 @@ def randomize():
 	#temp_dict = {"Embedding_dim":rand.choice([50, 100, 200, 300]), "Dropout_keep_prob":rand.random(), 
 	#			   "Num_filters":rand.choice([ 16, 32,  64, 128]),     "L2_reg_lambda":rand.random()}
 
-	temp_dict = {"Embedding_dim":100, "Dropout_keep_prob":rand.uniform(0.3, 0.7), 
-				   "Num_filters":128,     "L2_reg_lambda":rand.uniform(0.1, 0.5)}
+	temp_dict = {"Embedding_dim":100, "Dropout_keep_prob":0.5188296796442057, 
+				   "Num_filters":128,     "L2_reg_lambda":0.34644343986915205}
 							   
 	return temp_dict
 
@@ -46,7 +46,7 @@ def main(argv=None):
 		
 		training.sethypers(embedding_dim = temp_dict["Embedding_dim"],            num_filters = temp_dict["Num_filters"],  
 					   dropout_keep_prob = temp_dict["Dropout_keep_prob"],      l2_reg_lambda = temp_dict["L2_reg_lambda"])
-		training.setparams(num_epochs    = num_epochs, evaluate_every = 300, checkpoint_every = 300)
+		training.setparams(num_epochs    = num_epochs, evaluate_every = 300, checkpoint_every = num_epochs+1)
 		#avgAccurTrain, avgAccurValid     = training.train(x_train, y_train, vocab_processor, x_dev, y_dev)
 		#dictAvgAccurTrain[avgAccurTrain] = temp_dict
 		#dictAvgAccurValid[avgAccurValid] = temp_dict

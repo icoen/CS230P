@@ -1,6 +1,0 @@
-0.6439833,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.6359247580540746, 'Num_filters': 128, 'L2_reg_lambda': 0.14240229754808598}"
-0.6376072,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.6359247580540746, 'Num_filters': 128, 'L2_reg_lambda': 0.14240229754808598}"
-0.6439833,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.6248752644355462, 'Num_filters': 128, 'L2_reg_lambda': 0.17264418995210784}"
-0.6167401,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.5157490363435893, 'Num_filters': 128, 'L2_reg_lambda': 0.27224377434839153}"
-0.62636214,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.3306464541265835, 'Num_filters': 128, 'L2_reg_lambda': 0.16135615385711033}"
-0.5944818,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.3720133551982407, 'Num_filters': 128, 'L2_reg_lambda': 0.19437197940952383}"

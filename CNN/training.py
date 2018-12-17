@@ -15,10 +15,10 @@ from   tensorflow.contrib import learn
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage"   , .1, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("democrat_data_file"     , "../Datasets/trainvaltest/demtweetstrain.txt", "Dataset of democrat train tweets")
-tf.flags.DEFINE_string("republican_data_file"   , "../Datasets/trainvaltest/reptweetstrain.txt", "Dataset of republic train tweets")
-tf.flags.DEFINE_string("democrat_data_fileVal"  , "../Datasets/trainvaltest/demtweetsval.txt"  , "Dataset of democrat valid tweets")
-tf.flags.DEFINE_string("republican_data_fileVal", "../Datasets/trainvaltest/reptweetsval.txt"  , "Dataset of republic valod tweets")
+tf.flags.DEFINE_string("democrat_data_file"     , "../Datasets/trainvaltest/demfulltrain.txt", "Dataset of democrat train tweets")
+tf.flags.DEFINE_string("republican_data_file"   , "../Datasets/trainvaltest/repfulltrain.txt", "Dataset of republic train tweets")
+tf.flags.DEFINE_string("democrat_data_fileVal"  , "../Datasets/trainvaltest/demfullval.txt"  , "Dataset of democrat valid tweets")
+tf.flags.DEFINE_string("republican_data_fileVal", "../Datasets/trainvaltest/repfullval.txt"  , "Dataset of republic valod tweets")
 
 # Model Hyperparameters
 tf.flags.DEFINE_integer("embedding_dim"  ,     128, "Dimensionality of character embedding (default: 128)")
@@ -37,6 +37,7 @@ tf.flags.DEFINE_integer("num_checkpoints" ,   5, "Number of checkpoints to store
 # Misc Parameters
 tf.flags.DEFINE_boolean("allow_soft_placement",  True, "Allow device soft device placement")
 tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on devices")
+#tf.flags.DEFINE_boolean("ignore_checkpoints", False, "Do not save checkpoints to ")
 
 FLAGS = tf.flags.FLAGS
 
@@ -170,7 +171,7 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					feed_dict)
 				time_str = datetime.datetime.now().isoformat()
 				print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
-				#train_summary_writer.add_summary(summaries, step) #comment out when hypersearching
+				train_summary_writer.add_summary(summaries, step) #comment out when hypersearching
 				return accuracy
 
 			def dev_step(x_batch, y_batch, writer=None):
@@ -187,8 +188,8 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					feed_dict)
 				time_str = datetime.datetime.now().isoformat()
 				print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
-				#if writer:								#comment out when hypersearching
-				#	writer.add_summary(summaries, step) #comment out when hypersearching
+				if writer:								#comment out when hypersearching
+					writer.add_summary(summaries, step) #comment out when hypersearching
 
 				return accuracy
 
@@ -212,8 +213,8 @@ def train(x_train, y_train, vocab_processor, x_dev, y_dev):
 					print("")
 					listAccurValid.append(tmpValid)
 				if current_step  % FLAGS.checkpoint_every == 0:
-					#path         = saver.save(sess, checkpoint_prefix, global_step = current_step) #comment out when hypersearching
-					print("Did not save model")
+					path         = saver.save(sess, checkpoint_prefix, global_step = current_step) #comment out when hypersearching
+					#print("Did not save model")
 
 			maxAccurTrain = max(listAccurTrain)
 			maxAccurValid = max(listAccurValid)

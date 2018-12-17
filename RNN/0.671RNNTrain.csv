@@ -1,4 +1,0 @@
-0.6706232740883299,"{'LSTM': 128, 'Dense_output': 64, 'Learning_rate': 0.007275914308860709, 'Batch_size': 128, 'Embedding_dim': 50, 'Dropout_keep_prob': 0.2593329857128843, 'Min_freq': 2}"
-0.5950236384540847,"{'LSTM': 64, 'Dense_output': 256, 'Learning_rate': 0.0002556357361556546, 'Batch_size': 256, 'Embedding_dim': 50, 'Dropout_keep_prob': 0.6544013843502107, 'Min_freq': 3}"
-0.6706232740883299,"{'LSTM': 128, 'Dense_output': 64, 'Learning_rate': 0.007275914308860709, 'Batch_size': 128, 'Embedding_dim': 50, 'Dropout_keep_prob': 0.2593329857128843, 'Min_freq': 2}"
-0.5652406494461003,"{'LSTM': 64, 'Dense_output': 128, 'Learning_rate': 0.216163442408932, 'Batch_size': 32, 'Embedding_dim': 100, 'Dropout_keep_prob': 0.13344480494446187, 'Min_freq': 3}"

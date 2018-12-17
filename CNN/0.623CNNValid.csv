@@ -1,4 +1,0 @@
-0.6228843,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.41646927894220653, 'Num_filters': 128, 'L2_reg_lambda': 0.23744915267636324}"
-0.576281,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.36671761897184607, 'Num_filters': 128, 'L2_reg_lambda': 0.4783309393533792}"
-0.5769766,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.20704500355635436, 'Num_filters': 128, 'L2_reg_lambda': 0.12388126793930843}"
-0.6228843,"{'Embedding_dim': 100, 'Dropout_keep_prob': 0.41646927894220653, 'Num_filters': 128, 'L2_reg_lambda': 0.23744915267636324}"
