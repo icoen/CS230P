@@ -13,7 +13,7 @@ import os
 import tensorflow as tf
 import re
 import os
-import rnnmodels
+import trainatt
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 tf.logging.set_verbosity(tf.logging.ERROR)
@@ -25,7 +25,7 @@ max_words= len(vocab_processor.vocabulary_)
 max_len=65
 #loading saved tokenizations and parameters
 
-modelm=rnnmodels.Attennet()
+modelm=trainatt.Attennet(max_len, max_words)
 # load weights
 modelm.load_weights("weightsf2")
 # Compile model (required to make predictions)
@@ -41,5 +41,4 @@ while sentence!='END':
     predict=modelm.predict(x_val, verbose=0)
     print(str(int(100*predict[0][0]))+'% Democrat and '+str(100-int(100*predict[0][0]))+'% Republican')
     sentence=input("\n\nInput a sentence (within quotations) \n")
-
 
