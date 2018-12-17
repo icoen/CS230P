@@ -35,8 +35,8 @@ using the best hyperparameters found during the hyperparameter search as documen
 
 <code> python evaltest.py  </code> 
   
-loads the tokenization from `vocabdict' and weights from `weightsf2', the weights we use in our report.  And evaluates on the test data.  Outputs the accuracy, and the number of correct predictions for democrats and republicans.  You can change vocabdict, weightsf2 and the test data files within the python file to evaluate using new trained models and on different test data.
+loads the tokenization from vocabdict and weights from weightsf2, the weights we use in our report.  And evaluates on the test data.  Outputs the accuracy, and the number of correct predictions for democrats and republicans.  You can change vocabdict, weightsf2 and the test data files within the python file to evaluate using new trained models and on different test data.
   
 <code> python evalnew.py  </code> 
 
-loads the tokenization from `vocabdict' and weights from `weightsf2'.  Repeatedly asks for a sentence to predict in terminal and outputs the p value for democrat and republican.  Can input any sentences surrounded by quotes.  Enter `END' to end.  
+loads the tokenization from vocabdict and weights from weightsf2.  Repeatedly asks for a sentence to predict in terminal and outputs the p value for democrat and republican.  Can input any sentences surrounded by quotes.  Enter \`END' to end.  
