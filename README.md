@@ -11,7 +11,7 @@ This project classifies political affiliation from tweets using the long-short-t
 
 <h2>Dataset</h2>
 
-After preprocessing, the dataset is divided in 6 files, democrat and republican files for each of the train development and test sets with an 80/10/10 split.  These are in the Datasets/trainvaltest folder.
+We use a balanced dataset comprised of 86,460 labeled tweets from [Kaggle](https://www.kaggle.com/kapastor/democratvsrepublicantweets/version/1). After text preprocessing, the dataset is divided in 6 files, democrat and republican files for each of the train development and test sets with an 80/10/10 split.  These are in the Datasets/trainvaltest folder.
 
 <h2>LSTM-Attention Hyperparameter Search</h2>
 To run the Hyperparameter search, run:
