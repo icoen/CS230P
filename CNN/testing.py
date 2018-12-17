@@ -36,12 +36,12 @@ print("")
 
 #Data Loading
 if FLAGS.test_all:
-    x_raw, y_test = data_helpers.load_data_and_labels(FLAGS.democrat_data_file, FLAGS.republican_data_file)
+    x_raw, y_test = data_helpers.load_data_and_labels(FLAGS.democrat_data_fileVal, FLAGS.republican_data_fileVal)
     y_test        = np.argmax(y_test, axis=1)
 else:
-    x_raw  = ["Insert Tweet 1", "Insert Tweet 2."]
-    y_test = [0, 0]
-    #         
+    x_raw  = ["Insert Tweet 1", "Insert Tweet 2."]      #insert tweet 3, 4, 5...
+    y_test = [0, 0]   #1 is Democrat  0 is Republican   #insert label 3, 4, 5...
+    
 
 # Map data into vocabulary
 vocab_path      = os.path.join(FLAGS.checkpoint_dir, "..", "vocab")
