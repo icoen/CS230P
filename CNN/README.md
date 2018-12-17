@@ -10,7 +10,7 @@ This project classifies political affiliation from tweets using a convolutional 
 <h2>CNN Hyperparameter Search</h2>
 To run the Hyperparameter search, run:
 
-<code> ./hypersearchCNN.py </code> 
+<code> python hypersearchCNN.py </code> 
 
 Parameters asked: 
 
@@ -33,5 +33,5 @@ Epochs: Number of epochs you want to train your model.
   
 Replace CHECKPOINT with the ID number of your trained model on the "runs" folder.
   
-Remove <code>--test_all</code> to test for specific example tweets instead of the full testing datasets, and insert the specific tweets in the <code> ./testing.py </code> file.
+Remove <code>--test_all</code> to test for specific example tweets instead of the full testing datasets, and insert the specific tweets in the <code> testing.py </code> file.
 
