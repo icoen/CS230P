@@ -21,7 +21,7 @@ Epochs: Number of epochs you want each test case to train for.
 
 To run the Training, run:
 
-<code> ./main.py </code> 
+<code> python runTraining.py </code> 
 
 Parameters asked: 
 
@@ -29,7 +29,7 @@ Epochs: Number of epochs you want to train your model.
 
 <h2>CNN Testing</h2>
 
-<code> ./testing.py  --test_all --checkpoint_dir="./runs/CHECKPOINT/checkpoints/" </code> 
+<code> python testing.py  --test_all --checkpoint_dir="./runs/CHECKPOINT/checkpoints/" </code> 
   
 Replace CHECKPOINT with the ID number of your trained model on the "runs" folder.
   
